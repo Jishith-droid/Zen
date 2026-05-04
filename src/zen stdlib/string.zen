@@ -1,0 +1,272 @@
+// ============================================================
+// ZEN STRING STDLIB — FUNCTIONS
+// ============================================================
+
+fn reverse(string s) string {
+    int len = length(s)
+    string out = ""
+    int i = len - 1
+    while (i >= 0) {
+        out = out + s[i]
+        i = i - 1
+    }
+    return out
+}
+
+fn indexOf(string s, string target) int {
+    int len = length(s)
+    int tlen = length(target)
+    if (tlen == 0) return 0
+
+    int i = 0
+    while (i <= len - tlen) {
+        bool match = true
+        int j = 0
+        while (j < tlen) {
+            if (s[i + j] != target[j]) {
+                match = false
+            }
+            j = j + 1
+        }
+        if (match) return i
+        i = i + 1
+    }
+    return -1
+}
+
+fn slice(string s, int start, int end) string {
+    int len = length(s)
+    if (start < 0) {
+        start = 0
+    }
+    if (end > len) {
+        end = len
+    }
+    if (start > end) {
+        return ""
+    }
+    string out = ""
+    int i = start
+    while (i < end) {
+        out = out + s[i]
+        i = i + 1
+    }
+    return out
+}
+
+fn charAt(string s, int index) string {
+    int len = length(s)
+    if (index < 0 || index >= len) {
+        return ""
+    }
+    return s[index]
+}
+
+fn replace(string s, string target, string repl) string {
+    int len = length(s)
+    int tlen = length(target)
+
+    if (tlen == 0) return s
+
+    string out = ""
+    int i = 0
+
+    while (i < len) {
+        bool match = true
+        int j = 0
+
+        if (i <= len - tlen) {
+            while (j < tlen) {
+                if (s[i + j] != target[j]) {
+                    match = false
+                }
+                j = j + 1
+            }
+        } else {
+            match = false
+        }
+
+        if (match) {
+            int k = 0
+            int rlen = length(repl)
+            while (k < rlen) {
+                out = out + repl[k]
+                k = k + 1
+            }
+            i = i + tlen
+        } else {
+            out = out + s[i]
+            i = i + 1
+        }
+    }
+
+    return out
+}
+
+fn contains(string s, string target) bool {
+    int len = length(s)
+    int tlen = length(target)
+
+    if (tlen == 0) return true
+
+    int i = 0
+    while (i <= len - tlen) {
+        bool match = true
+        int j = 0
+        while (j < tlen) {
+            if (s[i + j] != target[j]) {
+                match = false
+            }
+            j = j + 1
+        }
+        if (match) return true
+        i = i + 1
+    }
+
+    return false
+}
+
+fn upperCase(string s) string {
+    int len = length(s)
+    string out = ""
+    int i = 0
+    while (i < len) {
+        string c = s[i]
+        int code = Int(c)
+        if (code >= Int("a") && code <= Int("z")) {
+            out = out + String(code - 32)
+        } else {
+            out = out + c
+        }
+        i = i + 1
+    }
+    return out
+}
+
+fn lowerCase(string s) string {
+    int len = length(s)
+    string out = ""
+    int i = 0
+    while (i < len) {
+        string c = s[i]
+        int code = Int(c)
+        if (code >= Int("A") && code <= Int("Z")) {
+            out = out + String(code + 32)
+        } else {
+            out = out + c
+        }
+        i = i + 1
+    }
+    return out
+}
+
+fn startsWith(string s, string prefix) bool {
+    int slen = length(s)
+    int plen = length(prefix)
+
+    if (plen > slen) return false
+
+    int i = 0
+    while (i < plen) {
+        if (s[i] != prefix[i]) {
+            return false
+        }
+        i = i + 1
+    }
+    return true
+}
+
+fn endsWith(string s, string suffix) bool {
+    int slen = length(s)
+    int len = length(suffix)
+    if (len > slen) {
+        return false
+    }
+    int i = 0
+    while (i < len) {
+        if (s[slen - len + i] != suffix[i]) {
+            return false
+        }
+        i = i + 1
+    }
+    return true
+}
+
+fn trim(string s) string {
+    int len = length(s)
+
+    int start = 0
+    int end = len - 1
+
+    // left trim
+    while (start < len) {
+        string c = s[start]
+        if (c == " " || c == "\n" || c == "\t") {
+            start = start + 1
+        } else {
+            break
+        }
+    }
+
+    // right trim
+    while (end >= start) {
+        string c = s[end]
+        if (c == " " || c == "\n" || c == "\t") {
+            end = end - 1
+        } else {
+            break
+        }
+    }
+
+    string out = ""
+    int i = start
+    while (i <= end) {
+        out = out + s[i]
+        i = i + 1
+    }
+
+    return out
+}
+
+fn splitAt(string s, string delim, int target) string {
+
+    int len = length(s)
+    int dlen = length(delim)
+
+    if (dlen == 0) return ""
+
+    int i = 0
+    int k = 0
+    string temp = ""
+
+    while (i < len) {
+
+        bool match = true
+        int j = 0
+
+        if (i <= len - dlen) {
+            while (j < dlen) {
+                if (s[i + j] != delim[j]) {
+                    match = false
+                }
+                j = j + 1
+            }
+        } else {
+            match = false
+        }
+
+        if (match) {
+            if (k == target) return temp
+            k = k + 1
+            temp = ""
+            i = i + dlen
+        } else {
+            temp = temp + s[i]
+            i = i + 1
+        }
+    }
+
+    if (k == target) return temp
+
+    return ""
+}

@@ -1,0 +1,15 @@
+fn isEven(int x) bool {
+    return x % 2 == 0
+}
+
+fn isOdd(int x) bool {
+    return x % 2 != 0
+}
+
+fn isPositive(int x) bool {
+    return x > 0
+}
+
+fn isNegative(int x) bool {
+    return x < 0
+}
